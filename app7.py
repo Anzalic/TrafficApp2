@@ -1,15 +1,18 @@
-
-
 import streamlit as st
 import pandas as pd
 import joblib
+import os  # Import the 'os' module
 
+# Get the directory of the current script
+current_dir = os.path.dirname(__file__)
 
+# Define the absolute paths to the model and data files
+model_path = os.path.join(current_dir, 'traffic_congestion_model.pkl')
+data_path = os.path.join(current_dir, 'cleaned_data_for_web_2.csv')
 
-
-# Load the model and data
-model = joblib.load('traffic_congestion_model.pkl')
-data = pd.read_csv('cleaned_data_for_web_2.csv')
+# Load the model and data using absolute paths
+model = joblib.load(model_path)
+data = pd.read_csv(data_path)
 
 # Set up the title of the web app
 st.write("# Traffic Congestion Prediction For London")
