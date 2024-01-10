@@ -1,0 +1,5 @@
+streamlit
+pandas
+numpy
+# any other packages your app uses
+
