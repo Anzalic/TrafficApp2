@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import sklearn
 import os  # Import the 'os' module
 
 # Get the directory of the current script
@@ -10,8 +11,20 @@ current_dir = os.path.dirname(__file__)
 model_path = os.path.join(current_dir, 'traffic_congestion_model.pkl')
 data_path = os.path.join(current_dir, 'cleaned_data_for_web_2.csv')
 
-# Load the model and data using absolute paths
-model = joblib.load(model_path)
+
+#  Load the model with error handling
+try:
+    model = joblib.load(model_path)
+except Exception as e:
+    # Handle the error gracefully
+    st.error(f"An error occurred while loading the model: {str(e)}")
+    st.stop()  # Stop the Streamlit app to prevent further execution
+
+# Check scikit-learn version compatibility
+scikit_learn_version = sklearn.__version__
+expected_version = "1.0.2"  # Replace with the version used for training
+if scikit_learn_version != expected_version:
+    st.warning(f"Warning: The scikit-learn version ({scikit_learn_version}) may not be compatible with the model. Expected version: {expected_version}")
 data = pd.read_csv(data_path)
 
 # Set up the title of the web app
